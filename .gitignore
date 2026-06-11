@@ -1,0 +1,14 @@
+.env
+.env.local
+/vendor/
+/uploads/*
+!uploads/.gitkeep
+node_modules/
+.DS_Store
+*.log
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+.env.php
