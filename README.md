@@ -1,45 +1,51 @@
 # Credencial Digital UTP
 
-## Descripción
-Aplicación web completa para la gestión de credenciales digitales de estudiantes de la Universidad Tecnológica de Puebla (UTP).
+Sistema universitario de credenciales digitales desarrollado con React Native Expo, Firebase y Express.js para la materia Desarrollo Web Integral.
 
-## Características
-- ✅ Inicio de sesión seguro
-- ✅ Registro de estudiantes
-- ✅ Generación de credenciales con fotografía
-- ✅ Código QR para validación
-- ✅ Panel de administración
-- ✅ Búsqueda de estudiantes
-- ✅ Diseño moderno con colores institucionales UTP
-- ✅ Interfaz Responsive
-- ✅ Base de datos MySQL
+## Funcionalidades
+- Inicio de sesion con Firebase Authentication y correo institucional.
+- Proteccion de rutas privadas y persistencia de sesion.
+- Credencial digital con matricula, nombre, carrera, estado academico, fotografia y QR.
+- Consulta de notas academicas, prestamos de biblioteca y beneficios estudiantiles.
+- Actualizacion de fotografia de perfil con Firebase Storage.
+- API REST propia con Express consumiendo Cloud Firestore.
 
-## Requisitos
-- PHP 8.0+
-- MySQL 5.7+
-- Apache 2.4+
-- Composer
+## Proyecto principal
+La aplicacion Expo vive en `credencial-utp/`.
 
-## Instalación
-1. Clonar el repositorio
-2. Ejecutar `composer install`
-3. Configurar `.env`
-4. Ejecutar migraciones
-5. Iniciar servidor local
-
-## Estructura del Proyecto
-```
-├── assets/
-├── config/
-├── database/
-├── public/
-├── src/
-├── uploads/
-└── views/
+```bash
+cd credencial-utp
+npm install
+npm run web
 ```
 
-## Colores Institucionales UTP
-- Azul Principal: #1E3A8A
-- Dorado Secundario: #D4A574
-- Blanco: #FFFFFF
-- Gris Oscuro: #2D3748
+API Express:
+
+```bash
+cd credencial-utp
+npm run api
+```
+
+## Arquitectura
+```text
+credencial-utp/src/
+  models/
+  views/
+  controllers/
+  services/
+  components/
+  navigation/
+  firebase/
+  assets/
+```
+
+## Patrones implementados
+- MVC: `models`, `views` y `controllers`.
+- Singleton: `FirebaseSingleton`.
+- Observer: `AuthObserver`.
+- Strategy: `QRCodeStrategy`.
+- Factory Method: `StudentFactory`.
+
+## Documentacion academica
+- Scrum: `credencial-utp/docs/scrum.md`.
+- GitHub Flow y ejemplos de Pull Requests: `credencial-utp/docs/github-flow.md`.
