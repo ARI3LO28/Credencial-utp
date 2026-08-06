@@ -5,6 +5,8 @@ import { ActivityIndicator, Image, StyleSheet, Text } from 'react-native';
 
 import { AppButton } from '@/src/components/AppButton';
 import { Screen } from '@/src/components/Screen';
+import { SectionHeader } from '@/src/components/SectionHeader';
+import { colors, radii } from '@/src/constants/theme';
 import { useProtectedStudent } from '@/src/controllers/CredentialController';
 import { uploadProfilePhoto } from '@/src/services/StudentService';
 
@@ -42,10 +44,10 @@ export default function ProfilePhotoView() {
 
   return (
     <Screen>
-      <Text style={styles.heading}>Actualizar fotografia</Text>
+      <SectionHeader eyebrow="Perfil estudiantil" title="Actualizar fotografia" />
       {previewUri ? <Image source={{ uri: previewUri }} style={styles.preview} /> : null}
       <AppButton label="Seleccionar foto" onPress={handlePick} variant="secondary" />
-      {loading ? <ActivityIndicator color="#1E3A8A" /> : <AppButton label="Guardar foto" onPress={handleUpload} />}
+      {loading ? <ActivityIndicator color={colors.primary} /> : <AppButton label="Guardar foto" onPress={handleUpload} />}
       {message ? <Text style={styles.message}>{message}</Text> : null}
       <AppButton label="Volver" onPress={() => router.back()} variant="secondary" />
     </Screen>
@@ -60,13 +62,13 @@ const styles = StyleSheet.create({
   },
   preview: {
     alignSelf: 'center',
-    backgroundColor: '#E8EDF7',
-    borderRadius: 8,
+    backgroundColor: colors.primarySoft,
+    borderRadius: radii.md,
     height: 220,
     width: 176,
   },
   message: {
-    color: '#12643A',
+    color: colors.success,
     fontWeight: '800',
   },
 });

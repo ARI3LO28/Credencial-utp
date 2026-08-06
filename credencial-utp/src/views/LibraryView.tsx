@@ -5,6 +5,8 @@ import { ActivityIndicator, StyleSheet, Text } from 'react-native';
 import { AppButton } from '@/src/components/AppButton';
 import { ListCard } from '@/src/components/ListCard';
 import { Screen } from '@/src/components/Screen';
+import { SectionHeader } from '@/src/components/SectionHeader';
+import { colors } from '@/src/constants/theme';
 import { useProtectedStudent } from '@/src/controllers/CredentialController';
 import { LibraryLoan } from '@/src/models/Student';
 import { getLibraryLoans } from '@/src/services/StudentService';
@@ -24,8 +26,11 @@ export default function LibraryView() {
 
   return (
     <Screen>
-      <Text style={styles.heading}>Prestamos de biblioteca</Text>
-      {loading ? <ActivityIndicator color="#1E3A8A" /> : null}
+      <SectionHeader eyebrow="Servicios escolares" title="Prestamos de biblioteca" />
+      {loading ? <ActivityIndicator color={colors.primary} /> : null}
+      {!loading && loans.length === 0 ? (
+        <ListCard detail="Agrega documentos en alumnos/{matricula}/biblioteca para mostrar prestamos." title="Sin prestamos registrados" />
+      ) : null}
       {loans.map((loan) => (
         <ListCard key={loan.id} detail={`${loan.fechaPrestamo} a ${loan.fechaDevolucion}`} title={loan.titulo}>
           <Text style={styles.status}>{loan.estado}</Text>
@@ -43,7 +48,7 @@ const styles = StyleSheet.create({
     fontWeight: '900',
   },
   status: {
-    color: '#12643A',
+    color: colors.success,
     fontSize: 16,
     fontWeight: '800',
   },

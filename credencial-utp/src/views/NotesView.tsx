@@ -5,9 +5,15 @@ import { ActivityIndicator, StyleSheet, Text } from 'react-native';
 import { AppButton } from '@/src/components/AppButton';
 import { ListCard } from '@/src/components/ListCard';
 import { Screen } from '@/src/components/Screen';
+import { SectionHeader } from '@/src/components/SectionHeader';
+import { colors } from '@/src/constants/theme';
 import { useProtectedStudent } from '@/src/controllers/CredentialController';
 import { AcademicNote } from '@/src/models/Student';
 import { getNotes } from '@/src/services/StudentService';
+
+function formatScore(score: number) {
+  return Number.isInteger(score) ? String(score) : score.toFixed(1);
+}
 
 export default function NotesView() {
   const { student } = useProtectedStudent();
@@ -24,11 +30,20 @@ export default function NotesView() {
 
   return (
     <Screen>
-      <Text style={styles.heading}>Notas academicas</Text>
-      {loading ? <ActivityIndicator color="#1E3A8A" /> : null}
+      <SectionHeader eyebrow="Historial academico" title="Notas academicas" />
+      {loading ? <ActivityIndicator color={colors.primary} /> : null}
+      {!loading && notes.length === 0 ? (
+        <ListCard detail="Agrega documentos en alumnos/{matricula}/notas para mostrar calificaciones." title="Sin notas registradas" />
+      ) : null}
       {notes.map((note) => (
-        <ListCard key={note.id} detail={`${note.parcial} - ${note.periodo}`} title={note.asignatura}>
-          <Text style={styles.score}>{note.calificacion.toFixed(1)}</Text>
+        <ListCard
+          key={note.id}
+          detail={[note.parcial, note.periodo, note.profesor ? `Profesor: ${note.profesor}` : '']
+            .filter(Boolean)
+            .join(' - ')}
+          title={note.asignatura}
+        >
+          <Text style={styles.score}>{formatScore(note.calificacion)}</Text>
         </ListCard>
       ))}
       <AppButton label="Volver" onPress={() => router.back()} variant="secondary" />
@@ -43,7 +58,7 @@ const styles = StyleSheet.create({
     fontWeight: '900',
   },
   score: {
-    color: '#1E3A8A',
+    color: colors.primary,
     fontSize: 22,
     fontWeight: '900',
   },

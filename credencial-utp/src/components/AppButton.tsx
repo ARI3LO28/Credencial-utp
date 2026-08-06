@@ -1,13 +1,17 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Pressable, StyleSheet, Text } from 'react-native';
+
+import { colors, radii } from '@/src/constants/theme';
 
 type AppButtonProps = {
   label: string;
   onPress: () => void;
   variant?: 'primary' | 'secondary' | 'danger';
   disabled?: boolean;
+  icon?: keyof typeof MaterialCommunityIcons.glyphMap;
 };
 
-export function AppButton({ label, onPress, variant = 'primary', disabled }: AppButtonProps) {
+export function AppButton({ disabled, icon, label, onPress, variant = 'primary' }: AppButtonProps) {
   return (
     <Pressable
       accessibilityRole="button"
@@ -20,6 +24,9 @@ export function AppButton({ label, onPress, variant = 'primary', disabled }: App
         disabled && styles.disabled,
       ]}
     >
+      {icon ? (
+        <MaterialCommunityIcons color={variant === 'primary' ? colors.cardSolid : colors.primaryDark} name={icon} size={20} />
+      ) : null}
       <Text style={[styles.label, variant !== 'primary' && styles.darkLabel]}>{label}</Text>
     </Pressable>
   );
@@ -28,19 +35,23 @@ export function AppButton({ label, onPress, variant = 'primary', disabled }: App
 const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
-    borderRadius: 8,
+    borderRadius: radii.md,
+    flexDirection: 'row',
+    gap: 8,
     minHeight: 48,
     justifyContent: 'center',
-    paddingHorizontal: 18,
+    paddingHorizontal: 22,
   },
   primary: {
-    backgroundColor: '#1E3A8A',
+    backgroundColor: colors.primary,
   },
   secondary: {
-    backgroundColor: '#E8EDF7',
+    backgroundColor: colors.primarySoft,
   },
   danger: {
-    backgroundColor: '#F8D7DA',
+    backgroundColor: colors.dangerSoft,
+    borderColor: colors.border,
+    borderWidth: 1,
   },
   disabled: {
     opacity: 0.6,
@@ -49,11 +60,11 @@ const styles = StyleSheet.create({
     transform: [{ scale: 0.99 }],
   },
   label: {
-    color: '#FFFFFF',
+    color: colors.cardSolid,
     fontSize: 16,
-    fontWeight: '700',
+    fontWeight: '800',
   },
   darkLabel: {
-    color: '#1D2433',
+    color: colors.text,
   },
 });

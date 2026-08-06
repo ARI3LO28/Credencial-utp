@@ -25,13 +25,18 @@ expo-env.d.ts
 npm-debug.*
 yarn-debug.*
 yarn-error.*
+api.pid
 
 # macOS
 .DS_Store
 *.pem
 
 # local env files
+.env
 .env*.local
+*.json.private
+*firebase-adminsdk*.json
+serviceAccountKey.json
 
 # typescript
 *.tsbuildinfo

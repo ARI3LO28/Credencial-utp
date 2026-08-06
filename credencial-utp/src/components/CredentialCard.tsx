@@ -1,5 +1,6 @@
 import { Image, StyleSheet, Text, View } from 'react-native';
 
+import { colors, radii, shadows } from '@/src/constants/theme';
 import { Student } from '@/src/models/Student';
 import { qrCodeContext } from '@/src/services/QRCodeStrategy';
 
@@ -12,27 +13,60 @@ export function CredentialCard({ student }: CredentialCardProps) {
 
   return (
     <View style={styles.card}>
+      <View style={styles.ribbon} />
+      <View style={styles.waveOne} />
+      <View style={styles.waveTwo} />
       <View style={styles.header}>
-        <Text style={styles.school}>Universidad Tecnologica de Puebla</Text>
-        <Text style={styles.title}>Credencial Digital</Text>
+        <View>
+          <Text style={styles.school}>Universidad Tecnologica de Puebla</Text>
+          <Text style={styles.title}>Credencial Digital</Text>
+        </View>
+        <Text style={styles.badge}>UTP</Text>
       </View>
 
       <View style={styles.identity}>
-        <Image
-          source={student.fotoUrl ? { uri: student.fotoUrl } : require('@/assets/images/icon.png')}
-          style={styles.photo}
-        />
+        <View style={styles.photoFrame}>
+          <Image
+            source={student.fotoUrl ? { uri: student.fotoUrl } : require('@/assets/images/icon.png')}
+            style={styles.photo}
+          />
+        </View>
         <View style={styles.info}>
           <Text style={styles.name}>{student.nombre}</Text>
-          <Text style={styles.text}>{student.matricula}</Text>
-          <Text style={styles.text}>{student.carrera}</Text>
+          <View style={styles.metaGrid}>
+            <View style={styles.metaItem}>
+              <Text style={styles.label}>Matricula</Text>
+              <Text style={styles.text}>{student.matricula}</Text>
+            </View>
+            <View style={styles.metaItemWide}>
+              <Text style={styles.label}>Carrera</Text>
+              <Text style={styles.text}>{student.carrera}</Text>
+            </View>
+            {student.cuatrimestre ? (
+              <View style={styles.metaItem}>
+                <Text style={styles.label}>Cuatrimestre</Text>
+                <Text style={styles.text}>{student.cuatrimestre}</Text>
+              </View>
+            ) : null}
+            {student.grupo ? (
+              <View style={styles.metaItem}>
+                <Text style={styles.label}>Grupo</Text>
+                <Text style={styles.text}>{student.grupo}</Text>
+              </View>
+            ) : null}
+          </View>
           <Text style={styles.status}>{student.estadoAcademico}</Text>
         </View>
       </View>
 
       <View style={styles.qrRow}>
-        <Image source={{ uri: qrUrl }} style={styles.qr} />
-        <Text style={styles.qrText}>QR de validacion generado por servicio externo.</Text>
+        <View style={styles.qrFrame}>
+          <Image source={{ uri: qrUrl }} style={styles.qr} />
+        </View>
+        <View style={styles.qrCopy}>
+          <Text style={styles.qrTitle}>Validacion de identidad</Text>
+          <Text style={styles.qrText}>Escanea el codigo QR para consultar la validacion publica de esta credencial.</Text>
+        </View>
       </View>
     </View>
   );
@@ -40,75 +74,174 @@ export function CredentialCard({ student }: CredentialCardProps) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#FFFFFF',
-    borderColor: '#D4A574',
-    borderRadius: 8,
-    borderWidth: 2,
-    gap: 18,
-    padding: 18,
+    backgroundColor: colors.card,
+    borderColor: colors.border,
+    borderRadius: radii.xl,
+    borderWidth: 1,
+    gap: 22,
+    overflow: 'hidden',
+    padding: 24,
+    ...shadows.card,
+  },
+  ribbon: {
+    backgroundColor: colors.primary,
+    height: 9,
+    left: 0,
+    position: 'absolute',
+    right: 0,
+    top: 0,
+  },
+  waveOne: {
+    backgroundColor: 'rgba(0,132,61,0.07)',
+    borderRadius: 180,
+    height: 210,
+    position: 'absolute',
+    right: -80,
+    top: 120,
+    width: 260,
+    pointerEvents: 'none',
+  },
+  waveTwo: {
+    backgroundColor: 'rgba(0,75,50,0.05)',
+    borderRadius: 180,
+    height: 160,
+    position: 'absolute',
+    right: -32,
+    top: 168,
+    width: 220,
+    pointerEvents: 'none',
   },
   header: {
-    borderBottomColor: '#E4E8F0',
+    alignItems: 'center',
+    borderBottomColor: colors.border,
     borderBottomWidth: 1,
-    paddingBottom: 12,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 4,
+    paddingBottom: 16,
   },
   school: {
-    color: '#1E3A8A',
-    fontSize: 13,
-    fontWeight: '700',
+    color: colors.primary,
+    fontSize: 14,
+    fontWeight: '900',
+    letterSpacing: 0,
     textTransform: 'uppercase',
   },
   title: {
-    color: '#1D2433',
-    fontSize: 24,
-    fontWeight: '800',
+    color: colors.text,
+    fontSize: 28,
+    fontWeight: '900',
+  },
+  badge: {
+    backgroundColor: colors.primaryDark,
+    borderRadius: radii.md,
+    color: colors.cardSolid,
+    fontSize: 18,
+    fontWeight: '900',
+    overflow: 'hidden',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
   },
   identity: {
+    alignItems: 'center',
     flexDirection: 'row',
-    gap: 14,
+    flexWrap: 'wrap',
+    gap: 22,
+  },
+  photoFrame: {
+    backgroundColor: 'rgba(234,247,240,0.86)',
+    borderColor: 'rgba(0,132,61,0.18)',
+    borderRadius: radii.lg,
+    borderWidth: 1,
+    padding: 8,
+    ...shadows.soft,
   },
   photo: {
-    backgroundColor: '#E8EDF7',
-    borderRadius: 8,
-    height: 110,
-    width: 88,
+    backgroundColor: colors.primarySoft,
+    borderRadius: radii.md,
+    height: 126,
+    width: 104,
   },
   info: {
     flex: 1,
-    gap: 5,
+    gap: 10,
+    minWidth: 220,
   },
   name: {
-    color: '#111827',
-    fontSize: 20,
-    fontWeight: '800',
+    color: colors.text,
+    fontSize: 24,
+    fontWeight: '900',
+  },
+  metaGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 12,
+  },
+  metaItem: {
+    minWidth: 120,
+  },
+  metaItemWide: {
+    flex: 1,
+    minWidth: 220,
+  },
+  label: {
+    color: colors.primary,
+    fontSize: 11,
+    fontWeight: '900',
+    marginTop: 2,
+    textTransform: 'uppercase',
   },
   text: {
-    color: '#4B5563',
-    fontSize: 14,
+    color: colors.muted,
+    fontSize: 15,
+    fontWeight: '600',
+    lineHeight: 21,
   },
   status: {
     alignSelf: 'flex-start',
-    backgroundColor: '#DFF7EA',
-    borderRadius: 6,
-    color: '#12643A',
-    fontSize: 13,
-    fontWeight: '700',
+    backgroundColor: colors.successSoft,
+    borderRadius: radii.pill,
+    color: colors.success,
+    fontSize: 14,
+    fontWeight: '900',
     marginTop: 4,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
+    paddingHorizontal: 12,
+    paddingVertical: 7,
   },
   qrRow: {
     alignItems: 'center',
+    borderTopColor: colors.border,
+    borderTopWidth: 1,
     flexDirection: 'row',
-    gap: 14,
+    flexWrap: 'wrap',
+    gap: 20,
+    paddingTop: 18,
+  },
+  qrFrame: {
+    backgroundColor: colors.cardSolid,
+    borderColor: colors.border,
+    borderRadius: radii.lg,
+    borderWidth: 1,
+    padding: 10,
+    ...shadows.soft,
   },
   qr: {
-    height: 116,
-    width: 116,
+    height: 126,
+    width: 126,
+  },
+  qrCopy: {
+    flex: 1,
+    gap: 6,
+    minWidth: 220,
+  },
+  qrTitle: {
+    color: colors.text,
+    fontSize: 17,
+    fontWeight: '900',
   },
   qrText: {
-    color: '#4B5563',
-    flex: 1,
-    fontSize: 13,
+    color: colors.muted,
+    fontSize: 14,
+    lineHeight: 21,
   },
 });

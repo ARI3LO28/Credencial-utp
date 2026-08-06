@@ -9,6 +9,9 @@ export type Student = {
   correo: string;
   estadoAcademico: AcademicStatus;
   fotoUrl?: string;
+  cuatrimestre?: string;
+  grupo?: string;
+  periodo?: string;
 };
 
 export type AcademicNote = {
@@ -17,6 +20,7 @@ export type AcademicNote = {
   parcial: string;
   calificacion: number;
   periodo: string;
+  profesor?: string;
 };
 
 export type LibraryLoan = {
