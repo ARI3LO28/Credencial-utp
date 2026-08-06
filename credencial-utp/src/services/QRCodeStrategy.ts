@@ -4,7 +4,12 @@ export interface QRCodeStrategy {
 
 export class ExternalQRServerStrategy implements QRCodeStrategy {
   createUrl(value: string): string {
-    const data = encodeURIComponent(`https://credencial.utpuebla.edu.mx/validar/${value}`);
+    const baseUrl =
+      process.env.EXPO_PUBLIC_VALIDATION_BASE_URL ||
+      process.env.EXPO_PUBLIC_APP_URL ||
+      'http://localhost:8081';
+    const validationUrl = `${baseUrl.replace(/\/$/, '')}/validar/${encodeURIComponent(value)}`;
+    const data = encodeURIComponent(validationUrl);
     return `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${data}`;
   }
 }

@@ -4,6 +4,7 @@
 /uploads/*
 !uploads/.gitkeep
 node_modules/
+/package-lock.json
 .DS_Store
 *.log
 *.swp
@@ -12,3 +13,9 @@ node_modules/
 .vscode/
 .idea/
 .env.php
+*.zip
+api.pid
+dist/
+web-build/
+*firebase-adminsdk*.json
+serviceAccountKey.json

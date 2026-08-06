@@ -23,6 +23,7 @@ export default function RootLayout() {
           <Stack.Screen name="library" />
           <Stack.Screen name="benefits" />
           <Stack.Screen name="profile-photo" />
+          <Stack.Screen name="validar/[matricula]" />
           <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
         </Stack>
         <StatusBar style="auto" />

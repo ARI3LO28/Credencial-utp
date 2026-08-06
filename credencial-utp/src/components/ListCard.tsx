@@ -1,6 +1,8 @@
 import { PropsWithChildren } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { colors, radii, shadows } from '@/src/constants/theme';
+
 type ListCardProps = PropsWithChildren<{
   title: string;
   detail?: string;
@@ -18,20 +20,21 @@ export function ListCard({ children, detail, title }: ListCardProps) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#FFFFFF',
-    borderColor: '#E4E8F0',
-    borderRadius: 8,
+    backgroundColor: colors.card,
+    borderColor: colors.border,
+    borderRadius: radii.lg,
     borderWidth: 1,
     gap: 6,
     padding: 14,
+    ...shadows.soft,
   },
   title: {
-    color: '#111827',
+    color: colors.text,
     fontSize: 16,
     fontWeight: '800',
   },
   detail: {
-    color: '#5B6472',
+    color: colors.muted,
     fontSize: 14,
   },
 });

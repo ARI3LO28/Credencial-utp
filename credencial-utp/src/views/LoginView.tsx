@@ -4,6 +4,7 @@ import { ActivityIndicator, StyleSheet, Text, TextInput, View } from 'react-nati
 
 import { AppButton } from '@/src/components/AppButton';
 import { Screen } from '@/src/components/Screen';
+import { colors, radii, shadows } from '@/src/constants/theme';
 import { useAuth } from '@/src/controllers/AuthController';
 
 export default function LoginView() {
@@ -30,14 +31,17 @@ export default function LoginView() {
   return (
     <Screen>
       <View style={styles.panel}>
+        <View style={styles.brandMark}>
+          <Text style={styles.brandText}>UTP</Text>
+        </View>
         <Text style={styles.title}>Credencial Digital UTP</Text>
-        <Text style={styles.subtitle}>Acceso con correo institucional</Text>
+        <Text style={styles.subtitle}>Acceso institucional para estudiantes</Text>
 
         <TextInput
           autoCapitalize="none"
           keyboardType="email-address"
           onChangeText={setEmail}
-          placeholder="correo@utpuebla.edu.mx"
+          placeholder="correo@alumno.utpuebla.edu.mx"
           style={styles.input}
           value={email}
         />
@@ -50,7 +54,7 @@ export default function LoginView() {
         />
 
         {error ? <Text style={styles.error}>{error}</Text> : null}
-        {loading ? <ActivityIndicator color="#1E3A8A" /> : <AppButton label="Iniciar sesion" onPress={handleLogin} />}
+        {loading ? <ActivityIndicator color={colors.primary} /> : <AppButton label="Iniciar sesion" onPress={handleLogin} />}
       </View>
     </Screen>
   );
@@ -58,34 +62,49 @@ export default function LoginView() {
 
 const styles = StyleSheet.create({
   panel: {
-    backgroundColor: '#FFFFFF',
-    borderColor: '#E4E8F0',
-    borderRadius: 8,
+    backgroundColor: colors.card,
+    borderColor: colors.border,
+    borderRadius: radii.lg,
     borderWidth: 1,
     gap: 14,
     marginTop: 44,
     padding: 20,
+    ...shadows.card,
+  },
+  brandMark: {
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    backgroundColor: colors.primary,
+    borderRadius: radii.md,
+    height: 54,
+    justifyContent: 'center',
+    width: 72,
+  },
+  brandText: {
+    color: colors.card,
+    fontSize: 20,
+    fontWeight: '900',
   },
   title: {
-    color: '#1E3A8A',
+    color: colors.primaryDark,
     fontSize: 28,
     fontWeight: '900',
   },
   subtitle: {
-    color: '#5B6472',
+    color: colors.muted,
     fontSize: 15,
   },
   input: {
-    backgroundColor: '#F8FAFC',
-    borderColor: '#CBD5E1',
-    borderRadius: 8,
+    backgroundColor: '#FAFCFB',
+    borderColor: colors.border,
+    borderRadius: radii.sm,
     borderWidth: 1,
     fontSize: 16,
     minHeight: 48,
     paddingHorizontal: 12,
   },
   error: {
-    color: '#B42318',
+    color: colors.danger,
     fontWeight: '700',
   },
 });

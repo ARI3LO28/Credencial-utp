@@ -1,0 +1,12 @@
+node_modules
+.expo
+dist
+web-build
+.git
+.env
+.env.local
+*.log
+api.pid
+*firebase-adminsdk*.json
+serviceAccountKey.json
+credencial-utp.zip

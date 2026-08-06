@@ -5,6 +5,8 @@ import { ActivityIndicator, StyleSheet, Text } from 'react-native';
 import { AppButton } from '@/src/components/AppButton';
 import { ListCard } from '@/src/components/ListCard';
 import { Screen } from '@/src/components/Screen';
+import { SectionHeader } from '@/src/components/SectionHeader';
+import { colors } from '@/src/constants/theme';
 import { useProtectedStudent } from '@/src/controllers/CredentialController';
 import { StudentBenefit } from '@/src/models/Student';
 import { getBenefits } from '@/src/services/StudentService';
@@ -24,8 +26,11 @@ export default function BenefitsView() {
 
   return (
     <Screen>
-      <Text style={styles.heading}>Beneficios estudiantiles</Text>
-      {loading ? <ActivityIndicator color="#1E3A8A" /> : null}
+      <SectionHeader eyebrow="Credencial vigente" title="Beneficios estudiantiles" />
+      {loading ? <ActivityIndicator color={colors.primary} /> : null}
+      {!loading && benefits.length === 0 ? (
+        <ListCard detail="Agrega documentos en alumnos/{matricula}/beneficios para mostrar descuentos." title="Sin beneficios registrados" />
+      ) : null}
       {benefits.map((benefit) => (
         <ListCard key={benefit.id} detail={benefit.descripcion} title={benefit.nombre}>
           <Text style={styles.discount}>{benefit.descuento}</Text>
@@ -44,12 +49,12 @@ const styles = StyleSheet.create({
     fontWeight: '900',
   },
   discount: {
-    color: '#1E3A8A',
+    color: colors.primary,
     fontSize: 22,
     fontWeight: '900',
   },
   validity: {
-    color: '#5B6472',
+    color: colors.muted,
     fontSize: 13,
   },
 });

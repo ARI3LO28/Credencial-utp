@@ -14,9 +14,33 @@ async function getAlumno(matricula) {
   return { id: snapshot.id, ...snapshot.data() };
 }
 
+async function getAlumnoByCorreo(correo) {
+  const normalizedCorreo = String(correo || '').trim().toLowerCase();
+  const snapshot = await db().collection('alumnos').where('correo', '==', normalizedCorreo).limit(1).get();
+
+  if (snapshot.empty) {
+    return null;
+  }
+
+  const alumno = snapshot.docs[0];
+  return { id: alumno.id, ...alumno.data() };
+}
+
 async function getSubcollection(matricula, name) {
   const snapshot = await db().collection('alumnos').doc(matricula).collection(name).get();
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+}
+
+async function getFirstAvailableSubcollection(matricula, names) {
+  for (const name of names) {
+    const data = await getSubcollection(matricula, name);
+
+    if (data.length > 0) {
+      return data;
+    }
+  }
+
+  return [];
 }
 
 async function updateFoto(matricula, fotoUrl) {
@@ -26,8 +50,9 @@ async function updateFoto(matricula, fotoUrl) {
 
 module.exports = {
   getAlumno,
-  getBeneficios: (matricula) => getSubcollection(matricula, 'beneficios'),
-  getBiblioteca: (matricula) => getSubcollection(matricula, 'biblioteca'),
-  getNotas: (matricula) => getSubcollection(matricula, 'notas'),
+  getAlumnoByCorreo,
+  getBeneficios: (matricula) => getFirstAvailableSubcollection(matricula, ['beneficios', 'Beneficios']),
+  getBiblioteca: (matricula) => getFirstAvailableSubcollection(matricula, ['biblioteca', 'Biblioteca']),
+  getNotas: (matricula) => getFirstAvailableSubcollection(matricula, ['notas', 'Notas']),
   updateFoto,
 };

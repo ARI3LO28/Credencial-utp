@@ -1,21 +1,38 @@
 import { Student } from './Student';
 
 type FirestoreStudent = Partial<Student> & {
+  EstadoAcademico?: Student['estadoAcademico'];
+  estado?: Student['estadoAcademico'];
+  foto?: string;
   name?: string;
   status?: Student['estadoAcademico'];
 };
 
+function cleanText(value: unknown, fallback = '') {
+  return typeof value === 'string' ? value.trim() : fallback;
+}
+
 export class StudentFactory {
   static fromFirestore(id: string, data: FirestoreStudent): Student {
+    const matricula = cleanText(data.matricula, id);
+    const nombre = cleanText(data.nombre, cleanText(data.name, 'Alumno UTP'));
+    const carrera = cleanText(data.carrera, 'Sin carrera registrada');
+    const correo = cleanText(data.correo).toLowerCase();
+    const estadoAcademico =
+      data.estadoAcademico ?? data.EstadoAcademico ?? data.estado ?? data.status ?? 'Activo';
+
     return {
       id,
       uid: data.uid,
-      matricula: data.matricula ?? id,
-      nombre: data.nombre ?? data.name ?? 'Alumno UTP',
-      carrera: data.carrera ?? 'Desarrollo Web Integral',
-      correo: data.correo ?? '',
-      estadoAcademico: data.estadoAcademico ?? data.status ?? 'Activo',
-      fotoUrl: data.fotoUrl,
+      matricula,
+      nombre,
+      carrera,
+      correo,
+      estadoAcademico,
+      fotoUrl: cleanText(data.fotoUrl, cleanText(data.foto)) || undefined,
+      cuatrimestre: cleanText(data.cuatrimestre) || undefined,
+      grupo: cleanText(data.grupo) || undefined,
+      periodo: cleanText(data.periodo) || undefined,
     };
   }
 
