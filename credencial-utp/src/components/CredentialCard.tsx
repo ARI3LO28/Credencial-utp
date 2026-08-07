@@ -10,6 +10,7 @@ type CredentialCardProps = {
 
 export function CredentialCard({ student }: CredentialCardProps) {
   const qrUrl = qrCodeContext.getCredentialQR(student.matricula);
+  const validationUrl = qrCodeContext.getValidationUrl(student.matricula);
 
   return (
     <View style={styles.card}>
@@ -66,6 +67,9 @@ export function CredentialCard({ student }: CredentialCardProps) {
         <View style={styles.qrCopy}>
           <Text style={styles.qrTitle}>Validacion de identidad</Text>
           <Text style={styles.qrText}>Escanea el codigo QR para consultar la validacion publica de esta credencial.</Text>
+          <Text selectable style={styles.qrLink}>
+            {validationUrl}
+          </Text>
         </View>
       </View>
     </View>
@@ -226,8 +230,8 @@ const styles = StyleSheet.create({
     ...shadows.soft,
   },
   qr: {
-    height: 126,
-    width: 126,
+    height: 156,
+    width: 156,
   },
   qrCopy: {
     flex: 1,
@@ -243,5 +247,11 @@ const styles = StyleSheet.create({
     color: colors.muted,
     fontSize: 14,
     lineHeight: 21,
+  },
+  qrLink: {
+    color: colors.primary,
+    fontSize: 12,
+    fontWeight: '800',
+    lineHeight: 17,
   },
 });
