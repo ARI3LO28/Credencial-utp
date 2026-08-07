@@ -62,7 +62,7 @@ export function CredentialCard({ student }: CredentialCardProps) {
 
       <View style={styles.qrRow}>
         <View style={styles.qrFrame}>
-          <Image source={{ uri: qrUrl }} style={styles.qr} />
+          <Image resizeMode="contain" source={{ uri: qrUrl }} style={styles.qr} />
         </View>
         <View style={styles.qrCopy}>
           <Text style={styles.qrTitle}>Validacion de identidad</Text>
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
     paddingVertical: 7,
   },
   qrRow: {
-    alignItems: 'center',
+    alignItems: 'flex-start',
     borderTopColor: colors.border,
     borderTopWidth: 1,
     flexDirection: 'row',
@@ -223,15 +223,15 @@ const styles = StyleSheet.create({
   },
   qrFrame: {
     backgroundColor: colors.cardSolid,
-    borderColor: colors.border,
-    borderRadius: radii.lg,
+    borderColor: 'rgba(0,0,0,0.08)',
+    borderRadius: radii.md,
     borderWidth: 1,
-    padding: 10,
+    padding: 14,
     ...shadows.soft,
   },
   qr: {
-    height: 156,
-    width: 156,
+    height: 220,
+    width: 220,
   },
   qrCopy: {
     flex: 1,

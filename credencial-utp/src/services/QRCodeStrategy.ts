@@ -38,7 +38,7 @@ export class ExternalQRServerStrategy implements QRCodeStrategy {
     const baseUrl = getValidationBaseUrl();
     const validationUrl = `${baseUrl.replace(/\/$/, '')}/validar/${encodeURIComponent(value)}`;
     const data = encodeURIComponent(validationUrl);
-    return `https://api.qrserver.com/v1/create-qr-code/?size=360x360&margin=16&data=${data}`;
+    return `https://api.qrserver.com/v1/create-qr-code/?size=700x700&margin=32&ecc=H&color=000000&bgcolor=FFFFFF&data=${data}`;
   }
 }
 
